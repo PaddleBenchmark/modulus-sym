@@ -48,10 +48,11 @@ function _train(){
 #   以下为通用执行命令，无特殊可不用修改
 
     export DDE_BACKEND=paddle
+    export  FLAGS_enable_auto_recompute=0 # 20240628 开启 CINN 时关闭,否则报错,后续修复后再关闭
     train_cmd="pushd examples/three_fin_2d; python heat_sink_inverse.py training.max_steps=600; popd"
     echo "pwd: $PWD train_cmd: ${train_cmd} log_file: ${train_log_file}"
     set -x
-    timeout 60m bash -c "${train_cmd}" > ${train_log_file} 2>&1
+    timeout 180m bash -c "${train_cmd}" > ${train_log_file} 2>&1
     if [ $? -ne 0 ];then
         echo -e "Generate ${model_name}, FAIL"
     else

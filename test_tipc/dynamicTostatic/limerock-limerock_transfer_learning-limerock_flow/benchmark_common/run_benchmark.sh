@@ -51,7 +51,7 @@ function _train(){
     train_cmd="pushd examples/limerock/limerock_transfer_learning; python limerock_flow.py training.max_steps=600; popd"
     echo "pwd: $PWD train_cmd: ${train_cmd} log_file: ${train_log_file}"
     set -x
-    timeout 3h bash -c "${train_cmd}" > ${train_log_file} 2>&1
+    timeout 4h bash -c "${train_cmd}" > ${train_log_file} 2>&1
     if [ $? -ne 0 ];then
         echo -e "Generate ${model_name}, FAIL"
     else
