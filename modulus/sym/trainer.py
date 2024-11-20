@@ -581,12 +581,6 @@ class Trainer(AdamMixin, AdaHessianMixin, BFGSMixin):
         # with PaddleProfiler((10, 20)) as pd_prof:
         self.log.info(f"Prim = {paddle.framework.core._is_eager_prim_enabled()}")
         with ExitStack() as stack:
-            if self.profile:
-                raise NotImplementedError(
-                    "Profiler is not supported for Modulus with Paddle backend."
-                )
-                # Add NVTX context if in profile mode
-
             for step in range(self.initial_step, self.max_steps + 1):
 
                 if self.sigterm_handler():
