@@ -36,6 +36,7 @@ dependencies = [
     "tensorboardX==2.6.2.2",
     "gdown~=5.1.0",
     "pandas",
+    "numpy==1.24.4", # not support 2.*
 ]
 classifiers = [
     "Programming Language :: Python :: 3",
