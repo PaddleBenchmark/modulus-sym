@@ -28,6 +28,7 @@ from typing import Dict, List, Set, Optional, Union, Callable
 Tensor = paddle.Tensor
 logger = logging.getLogger(__name__)
 
+
 # ==== Autodiff ====
 def gradient(y: paddle.Tensor, x: List[paddle.Tensor]) -> List[paddle.Tensor]:
     """
@@ -71,7 +72,8 @@ class Derivative(paddle.nn.Layer):
         super().__init__()
 
         self.gradient_dict: Dict[str, Dict[str, int]] = {
-            str(k): {str(w): w.size for w in v} for k, v in bwd_derivative_dict.items()
+            str(k): {str(w): w.size for w in sorted(v, key=lambda x: str(x))}
+            for k, v in bwd_derivative_dict.items()
         }
         self.gradient_names: Dict[str, List[str]] = {
             k: [diff(k, der) for der in v.keys()] for k, v in self.gradient_dict.items()
