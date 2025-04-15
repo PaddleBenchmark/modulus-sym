@@ -101,20 +101,15 @@ class Constraint:
 
         # enable dy2st
         import os
+
         enable_jit = bool(os.getenv("to_static", "True") == "True") # Jit is enabled by default
-        enable_cinn = bool(os.getenv("FLAGS_use_cinn", "False") == "True") # CINN is disabled by default
         if enable_jit:
             from paddle import jit
-            from paddle import static
-            build_strategy = static.BuildStrategy()
-            build_strategy.build_cinn_pass = enable_cinn
-            self.model.forward = jit.to_static(full_graph=True, build_strategy=build_strategy)(self.model.forward)
-            logger.info(f"🍰 🍰 Using jit.to_static with FLAGS_use_cinn={enable_cinn} in Constraint.__init__ in {__file__}, to_static can be disabled by set 'to_static=False python example.py'")
-        elif enable_cinn:
-            raise RuntimeError(
-                f"Please set FLAGS_use_cinn=0 when 'to_static' is set to 0"
-            )
 
+            self.model.forward = jit.to_static(full_graph=True)(self.model.forward)
+            logger.info(
+                f"🍰 🍰 Using jit.to_static in Constraint.__init__ in {__file__}, to_static can be disabled by set 'to_static=False python example.py'"
+            )
 
     @property
     def input_names(self) -> List[Key]:
