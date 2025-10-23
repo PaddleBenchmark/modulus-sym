@@ -43,6 +43,7 @@ function _analysis_log(){
 }
 
 function _train(){
+    export NVIDIA_TF32_OVERRIDE=1 #Paddle的PR#75907默认关闭此flag，影响性能，benchmark监控打开此flag
     echo "current CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES}, model_name=${model_name}, device_num=${device_num}, is profiling=${profiling}"
 
 #   以下为通用执行命令，无特殊可不用修改
